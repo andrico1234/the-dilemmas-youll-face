@@ -416,35 +416,35 @@ The benefits of this approach are two-fold:
 - You don’t need to create and deploy a documentation site
 - The markdown files you write now can be used as inputs for static site generators that you might use later on.
 
-  You can start simple, and repurpose the markdown you write to generate your documentation site's pages in the future.
+You can start simple, and repurpose the markdown you write to generate your documentation site's pages in the future.
 
-  This approach doesn’t lend itself well to something as visual and interactive as a component library, where a user may want to play with components themselves.
+This approach doesn’t lend itself well to something as visual and interactive as a component library, where a user may want to play with components themselves.
 
-  ### Option 2: Markdown-driven documentation tools
+### Option 2: Markdown-driven documentation tools
 
-  If you've written your documentation via option 1, you can use those files as inputs to static site generators like [Starlight](https://starlight.astro.build/) and [Docusaurus](https://docusaurus.io/).
+If you've written your documentation via option 1, you can use those files as inputs to static site generators like [Starlight](https://starlight.astro.build/) and [Docusaurus](https://docusaurus.io/).
 
-  These tools take your markdown and JavaScript and compile it to a static site optimised for documentation. This is handy, but without additional tooling, you’ll need to update your documentation site every time you change your components.
+These tools take your markdown and JavaScript and compile it to a static site optimised for documentation. This is handy, but without additional tooling, you’ll need to update your documentation site every time you change your components.
 
-  The [Custom Elements Manifest](https://github.com/webcomponents/custom-elements-manifest) (CEM) is a spec that describes how to represent a web component as a JSON object. There’s a [CEM analyser](https://github.com/open-wc/custom-elements-manifest?tab=readme-ov-file) that generates this object for your components. The output can be used to create a host of different tooling around web components. For instance, the [API Viewer](https://api-viewer.open-wc.org/) element is one such tool.
+The [Custom Elements Manifest](https://github.com/webcomponents/custom-elements-manifest) (CEM) is a spec that describes how to represent a web component as a JSON object. There’s a [CEM analyser](https://github.com/open-wc/custom-elements-manifest?tab=readme-ov-file) that generates this object for your components. The output can be used to create a host of different tooling around web components. For instance, the [API Viewer](https://api-viewer.open-wc.org/) element is one such tool.
 
-  ### Option 3: UI Cataloging tools
+### Option 3: UI Cataloging tools
 
-  Beyond static site generators, there are more involved cataloguing tools, like Storybook. These cataloguing tools showcase the full breadth of functionality of your components
+Beyond static site generators, there are more involved cataloguing tools, like Storybook. These cataloguing tools showcase the full breadth of functionality of your components
 
-  [Storybook](https://storybook.js.org/) has a strong ecosystem of plugins that allow developers to simulate events, change viewport width, perform basic accessibility tests, and more.
+[Storybook](https://storybook.js.org/) has a strong ecosystem of plugins that allow developers to simulate events, change viewport width, perform basic accessibility tests, and more.
 
-  This approach is fine, but I’ve often seen it used in conjunction with a documentation site, not to replace it.
+This approach is fine, but I’ve often seen it used in conjunction with a documentation site, not to replace it.
 
-  ### Opinion Time (🪙🪙)
+### Opinion Time (🪙🪙)
 
-  In the past, I would use a tool like Storybook. I like how feature-rich it is, and how great the ecosystem is. More recently, I’ve been interested in forgoing a tool like Storybook, and instead of splitting up documentation from component cataloging, provide a single resource for consumers. Other libraries take this approach too. [Shoelace](https://shoelace.style/resources/contributing/#dev-sandbox) discusses why it doesn’t use Storybook in their documentation site.
+In the past, I would use a tool like Storybook. I like how feature-rich it is, and how great the ecosystem is. More recently, I’ve been interested in forgoing a tool like Storybook, and instead of splitting up documentation from component cataloging, provide a single resource for consumers. Other libraries take this approach too. [Shoelace](https://shoelace.style/resources/contributing/#dev-sandbox) discusses why it doesn’t use Storybook in their documentation site.
 
-  For a recent project, I created a simple HTML site that consumed my components. it was a quick and easy way of publishing a site and requires little maintenance. The downside is that it’s a very static approach, and won’t scale for a component library that’s quickly growing and changing
+For a recent project, I created a simple HTML site that consumed my components. it was a quick and easy way of publishing a site and requires little maintenance. The downside is that it’s a very static approach, and won’t scale for a component library that’s quickly growing and changing
 
-  I have been exploring using the _custom element manifest_ to automatically generate documentation for my components, but I haven’t cracked an ideal workflow yet.
+I have been exploring using the _custom element manifest_ to automatically generate documentation for my components, but I haven’t cracked an ideal workflow yet.
 
-  As for deploying your documentation site, there are heaps of different tools out there to quickly get a static site live. My go to hosting platform for deploying a static site is Netlify. But you can use one of any other hosting site out there.
+As for deploying your documentation site, there are heaps of different tools out there to quickly get a static site live. My go to hosting platform for deploying a static site is Netlify. But you can use one of any other hosting site out there.
 
 ## What’s next?
 
