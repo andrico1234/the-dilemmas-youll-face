@@ -4,23 +4,22 @@
 
 Building a component library is a challenging and rewarding experience, but there’s more to it than writing great-looking components. At every step of the journey, you’ll need to make choices to ensure your library is built appropriately for its intended audience.
 
-You’ll have to decide:
+When buildinh your librarym, you'll need to consider the following questions:
 
-- How you’ll build your components
-- How you’ll publish your library
-- How to structure your library’s repo
-- Whether you want to use tooling, like TypeScript, to build and/or bundle your component library
-- The testing strategy you want to use
-- How to version and publish your library
-- How to document your component library
+- [Should I write vanilla web components or use a library?](#should-i-write-vanilla-web-components-or-use-a-library)
+- [Should I export my library as a single package or as scoped packages?](#should-i-export-my-library-as-a-single-package-or-as-scoped-packages)
+- [How should I structure the repo of my library?](#how-should-i-structure-the-repo-of-my-library)
+- [Should I use tooling to build and/or bundle my library?](#should-i-use-tooling-to-build-andor-bundle-my-library)
+- [Aside: Application-level concerns vs library-level concerns](#aside-application-level-concerns-vs-library-level-concerns)
+- [How can I safely publish my library?](#how-can-i-safely-publish-my-library)
+- [What should my library’s testing strategy be?](#what-should-my-librarys-testing-strategy-be)
+- [How to write documentation for my component library](#how-to-write-documentation-for-my-component-library)
+- [What’s next?](#whats-next)
 
 While this series is focused on building a component library using web components, many of the dilemmas I cover here can be applied to other web frameworks.
 If you’d like to build your very first web component library, then check out [Component Odyssey](https://component-odyssey.com/), a course that teaches you everything you need to know to build, style, and publish a web component library that works in any framework.
 
-<details>
-  <summary>
-    Should I write vanilla web components or use a library?
-  </summary>
+## Should I write vanilla web components or use a library?
 
 > Note: You might think that this section isn’t applicable if you don’t plan on using web components, but web components are interoperable with every other web framework! There are heaps of great libraries designed to make writing web components more pleasant, so it’s worth considering them for a future project.
 
@@ -78,12 +77,8 @@ If you want more hands-on coding, then I’d recommend picking one of the helper
 Finally, if you want to get stuck into the lower-level APIs of web components, then I’d recommend exploring building your own web components. It’s a great way to better understand the browser platform, and helps you become a more well-rounded developer.
 
 The documentation for web components can be super fragmented, but [MDN](https://developer.mozilla.org/en-US/docs/Web/API/Web_components) is a great spot to go if you want to get started. You can also check out [Component Odyssey](https://component-odyssey.com/), which teaches you the fundamentals of web components in a fun, and practical course.
-</details>
 
-<details>
-  <summary>
-    Should I export my library as a single package or as scoped packages?
-  </summary>
+## Should I export my library as a single package or as scoped packages?
 
 Many component libraries offer access to the entire component suite via a single NPM package, while others split components out into their own packages. Let’s take a look at both approaches.
 
@@ -166,41 +161,39 @@ I’ve played around with both solutions in the past and have found that the com
 It’s also important to think about your end users. Installing one package is easier than multiple packages. The package update experience is more cumbersome when each component is managed by a separate package. I discuss versioning further down though.
 My general philosophy is to opt for the simplest approach and only add complexity when necessary.
 
-</details>
+## How should I structure the repo of my library?
 
-<details>
-  <summary>
-    How should I structure the repo of my library?
-  </summary>
-  
 If you’re publishing a single package, you’ll need to create a top-level package.json file that encompasses every component in your library. A standard of a component library may be structured in the following way:
-  ```yaml
-  component-library/
-  src/
-  button/
-  button.js
-  checkbox/
-  checkbox.js
-  package.json
-  ```
 
-  If you’re exporting scoped packages, each package will be published independently. This means that each component will need a `package.json` file. Since each component has its own `package.json` file, it will have a degree of autonomy that it wouldn’t have otherwise. It can have its own scripts, dependencies, and versions, etc. This approach, where your component library is comprised of distinct projects, is known as a monorepo. This is what your folder directory might look like:
+```yaml
+component-library/
+src/
+button/
+button.js
+checkbox/
+checkbox.js
+package.json
+```
 
-  ```yaml
-  component-library/
-  packages/
-  button/
-  button.js
-  package.json
-  checkbox/
-  button.js
-  package.json
-  package.json
-  ```
-  In my experience, the key benefits of using monorepos for UI libraries are:
-  - publishing components independently
-  - scoping builds and scripts, which can speed things up in particularly large libraries
-  - logically group batches of components
+If you’re exporting scoped packages, each package will be published independently. This means that each component will need a `package.json` file. Since each component has its own `package.json` file, it will have a degree of autonomy that it wouldn’t have otherwise. It can have its own scripts, dependencies, and versions, etc. This approach, where your component library is comprised of distinct projects, is known as a monorepo. This is what your folder directory might look like:
+
+```yaml
+component-library/
+packages/
+button/
+button.js
+package.json
+checkbox/
+button.js
+package.json
+package.json
+```
+
+In my experience, the key benefits of using monorepos for UI libraries are:
+
+- publishing components independently
+- scoping builds and scripts, which can speed things up in particularly large libraries
+- logically group batches of components
 
 For that last point, you might have a track of alpha/experimental components that exist outside the core component library. Using a monorepo would allow you to develop and publish these experimental components at a different cadence to the rest of the your components.
 
@@ -214,12 +207,7 @@ There are dedicated tools that offer a more robust monorepo experience though, a
 
 I’ve worked in large backend/frontend monorepos, I’ve also built component libraries using monorepos, like [A2K](https://a2000-docs.netlify.app/). Unless you’re really set on versioning your component library, I’d advise on avoiding using monorepos, at least to start with.
 
-</details>
-
-<details>
-  <summary>
-    Should I use tooling to build and/or bundle my library?
-  </summary>
+## Should I use tooling to build and/or bundle my library?
 
 One perk of using native browser tech for your components is that it can simplify your development environment. If you’re building vanilla web components or a library like Lit, you won’t need a build tool or a compiler to transpile your code into something browser compatible.
 
@@ -238,7 +226,6 @@ Heaps of tools we use to build user interfaces are not natively supported in the
 Web components are native to the browser, meaning you won’t have to run a build to get them working in the browser. You can take this philosophy and use it when developing your component library altogether. You might want to avoid ANY tool that requires a build tool. This kind of workflow, where the code you write is browser compatible is called “buildless”, i.e., no build step is required to run it.
 
 This kind of workflow is becoming more popular, there have been a few [high-profile](https://world.hey.com/dhh/you-can-t-get-faster-than-no-build-7a44131c) [instances](https://devclass.com/2023/05/11/typescript-is-not-worth-it-for-developing-libraries-says-svelte-author-as-team-switches-to-javascript-and-jsdoc/) of teams removing reliance on building tooling. My first exposure to a buildless workflow was through [Pascal Schilp's](https://css-tricks.com/going-buildless/) 2019 article, which demonstrates how much one could achieve going buildless.
-
 
 ### **Compilers (TypeScript, Stencil)**
 
@@ -269,27 +256,17 @@ Not all tools are like this though, [Web Dev Server](https://modern-web.dev/docs
 
 When it comes to build tooling, my preferences depends on my project. If I’m building an application, I’ll reach for TypeScript. If I’m building a component library, I’ll avoid TypeScript. I’ve been using [JSDoc](https://jsdoc.app/) more recently, which offers browser friendly type safety via code comments.
 
-</details>
+## Aside: Application-level concerns vs library-level concerns
 
-<details>
-  <summary>
-    Aside: Application-level concerns vs library-level concerns
-  </summary>
+You may be tempted to perform certain optimisations like minifying, bundling, and transpiling your code before publishing. You might want to reconsider, should a library developer be concerned with these optimizations? My answer is no.
 
-  You may be tempted to perform certain optimisations like minifying, bundling, and transpiling your code before publishing. You might want to reconsider, should a library developer be concerned with these optimizations? My answer is no.
+For starters, you don’t know the application requirements for every application that uses your library. They could support modern browsers only, they may support IE11, they might have a bandwidth budget, they might not. It’s the application developer’s responsibility to ensure their application satisfies their user’s needs. It might be that they need to minify their code, bundle it into a single output, and transpile it down to an older version of JavaScript.
 
-  For starters, you don’t know the application requirements for every application that uses your library. They could support modern browsers only, they may support IE11, they might have a bandwidth budget, they might not. It’s the application developer’s responsibility to ensure their application satisfies their user’s needs. It might be that they need to minify their code, bundle it into a single output, and transpile it down to an older version of JavaScript.
+Let’s take a look at bundling, which is an application-level concern. Bundling is the process of combining several modules into fewer, but larger chunks of code. The developer should find the right balance to ensure that the end-user has all the code they need in a timely manner. It’s not the responsibility of the library author to perform this optimisation as the needs of applications can vary drastically. Premature optimisations can even be actively hostile towards developers consuming your library. In the past, I used a library that minified their published code making it very difficult to debug issues.
 
-  Let’s take a look at bundling, which is an application-level concern. Bundling is the process of combining several modules into fewer, but larger chunks of code. The developer should find the right balance to ensure that the end-user has all the code they need in a timely manner. It’s not the responsibility of the library author to perform this optimisation as the needs of applications can vary drastically. Premature optimisations can even be actively hostile towards developers consuming your library. In the past, I used a library that minified their published code making it very difficult to debug issues.
+As a library author, you can export your component as modern, browser-friendly JavaScript using ESM, and allow your consumers to do whatever they need to with your code. I cover this approach in [Component Odyssey](https://component-odyssey.com/).
 
-  As a library author, you can export your component as modern, browser-friendly JavaScript using ESM, and allow your consumers to do whatever they need to with your code. I cover this approach in [Component Odyssey](https://component-odyssey.com/).
-</details>
-
-
-<details>
-  <summary>
-    How can I safely publish my library?    
-  </summary>
+## How can I safely publish my library?
 
 The way you version and publish your library depends on whether you choose to structure your repo as a monorepo.
 
@@ -298,9 +275,11 @@ Versioning and publishing multiple packages within a monorepo is more complex th
 Let’s take a start by looking at the latter:
 
 ### Publishing a single package
+
 The quickest way to publish your package is to run `npm publish`, but I’d advise against doing so. The default publishing script has few safeguards to prevent you from making common publishing mistakes.
 
 It’s easy to:
+
 - Publish uncommitted changes
 - Publish from the wrong branch
 - Publish with failing broken tests
@@ -334,16 +313,13 @@ I’ve published both single-package component libraries and multiple-package mo
 If the component library is cohesive in terms of its utility or appearance I would publish a single package. It’s easier to version, and easier for developers to consume.
 
 If you want to publish multiple components, I’d suggest managing independent versions. I’ve been on the other end of upgrading multiple packages from an organisation that adheres to fixed versioning and it’s tedious.
-</details>
 
-<details>
-  <summary>
-    What should my library’s testing strategy be?    
-  </summary>
+## What should my library’s testing strategy be?
 
 The first [known software testing team was created in the 1950s](https://www.testingreferences.com/testinghistory.php), so I can only guess that debates about testing software predate any debates on web frameworks by several decades.
 
 Even now, you’re likely to run into folks with a different preference for software testing. Some people swear by unit tests, others only prefer end-to-end testing. This is often visualised as a “testing pyramid” a “testing trophy”, or a different shape entirely. Whatever testing polygon you devote your practice to, it’s important to establish a testing strategy for multiple reasons:
+
 1. You reduce the risk of publishing a broken library
 2. You can test within the boundaries of your library’s intended usage
 3. You can establish a precedence for other contributors to follow
@@ -355,9 +331,11 @@ It’s also important to think about your users too. Since your component librar
 Let’s look at different types of testing you can employ within a testing strategy.
 
 ### Headless browser testing
+
 This approach involves testing your web components in a browser without a UI. Your test runner will spin up a browser in a terminal, load your component, and run your test cases.
 
 The benefits of this approach are:
+
 - Tests are quick, due to no browser UI overhead
 - You test using an actual browser, and not a simulated environment
 - Your tests focus on behaviour, not the component’s implementation
@@ -371,7 +349,9 @@ I particularly like this quote from Kent C Dodds, creator of the Testing Library
 You can take this even further and write tests that ensure your components work across different frameworks too. The [PatternFly Elements](https://github.com/patternfly/patternfly-elements) repo also tests across different web frameworks.
 
 ### Visual Regression Testing
+
 It’s easy to miss subtle styling regressions if you’ve made significant changes to a component.
+
 - [ ] Do a comparison of the two
 
 Eagle-eyed developers will this problem, but if you’re working in a team, a fast-moving environment, or you’re accepting open-source contributions, then it makes sense to have a programmatic way of detecting changes.
@@ -379,24 +359,29 @@ Eagle-eyed developers will this problem, but if you’re working in a team, a fa
 You can use a visual regression tool to take visual snapshots of your component, before and after changes. You can integrate this within your testing pipeline to ensure any snapshots with visual changes are manually reviewed.
 
 The benefits of this approach are:
+
 - Isolating and spotting small UI problems that could slip through the cracks
 - Aligning different stakeholders and getting sign-off.
 
 In traditional teams, design and development may be two separate business departments. A designer may be responsible for the visual design, and the developer may be responsible for the implementation. Snapshot tests are a great way of involving the designer in the QA process.
 
 Snapshot testing tools aren’t as straightforward to set up, they often require:
+
 - Storage for snapshot images
 - Integrations with tools like GitHub Actions to pass/fail the pipeline
 - A microsite to display the snapshot and accept user actions
 
 Some handy snapshot testing tools out there are:
+
 - [Percy](https://percy.io/) (paid)
 - [Scooby](https://github.com/AnimaApp/scooby) (open source)
 
 ### Manual testing
+
 A complete automated testing suite means you can spend more time performing exploratory testing to catch issues that automated tests can't find.
 
 Here’s an excellent article about integrating [accessibility testing into your development process](https://www.smashingmagazine.com/2021/04/bake-layers-accessibility-testing-process/). The article recommends a handful of ways of manually testing that your UI is accessible, which I've adjusted slightly to focus on testing components:
+
 - Can you use your components without your mouse? Use simple keyboard-only manual testing to evaluate new components.
 - Can you still use your components when setting browser magnification to 200% or greater?
 - Do your components have a dark mode? Is this dark mode suitable for those with light sensitivity?
@@ -405,39 +390,38 @@ Here’s an excellent article about integrating [accessibility testing into your
 If you're interested in your UI library being accessible, [and you really should be](https://www.w3.org/WAI/fundamentals/accessibility-intro/#important), then make time for manual accessibility testing. Making your components usable for those with sight, hearing, cognitive, or motor disabilities will also make your components more usable for [everyone else](https://www.w3.org/WAI/perspective-videos/keyboard/).
 
 If you’re interested in writing more accessible components here are a few great resources:
+
 - [Carie Fisher’s A11y Style Guide](https://a11y-style-guide.com/style-guide/)
 - [Heydon Pickering’s Inclusive Components](https://inclusive-components.design/)
 - [ARIA Authoring Practices Guidelines](https://www.w3.org/WAI/ARIA/apg/patterns/)
 
 ### Static Analysis Testing
+
 Finally, there are _static analysis testing_ tools like linters, e.g., [ESLint](https://eslint.org/). These tools review your code and flag issues in your editor as you type, some even automatically fix these problems. The ESLint ecosystem has plugins that can spot issues for web components. [ESLint Plugin Lit](https://www.npmjs.com/package/eslint-plugin-lit) is one such example.
 
 These tests run in your editor as you work, so the overhead for adding and running ESLint is small. You can run linters, at any stage of your development lifecycle; before committing, before pushing, when opening a pull request, before publishing, etc.
 
 Linters aren’t the only static analysis tools, TypeScript is another example. Like ESLint, it has IDE integration, so your editor can spot problems in your code before you compile it.
-</details>
 
-
-<details>
-  <summary>
-    How to write documentation for my component library
-  </summary>
-
+## How to write documentation for my component library
 
 Creating clear and easy-to-use documentation is one way to make consumers fall in love with your library. You’ll also want to create documentation that integrates nicely within your workflow. Here are some different ways you can provide component documentation to your users.
 
 ### Option 1: README.md
+
 If your codebase is publicly displayed on GitHub, you can write your documentation in README files within your repo. [Changesets](https://github.com/atlassian/changesets) does this by using the top-level README as a table of contents, and linking to other READMEs in the repo.
 
 The benefits of this approach are two-fold:
+
 - You don’t need to create and deploy a documentation site
 - The markdown files you write now can be used as inputs for static site generators that you might use later on.
 
   You can start simple, and repurpose the markdown you write to generate your documentation site's pages in the future.
-  
+
   This approach doesn’t lend itself well to something as visual and interactive as a component library, where a user may want to play with components themselves.
 
   ### Option 2: Markdown-driven documentation tools
+
   If you've written your documentation via option 1, you can use those files as inputs to static site generators like [Starlight](https://starlight.astro.build/) and [Docusaurus](https://docusaurus.io/).
 
   These tools take your markdown and JavaScript and compile it to a static site optimised for documentation. This is handy, but without additional tooling, you’ll need to update your documentation site every time you change your components.
@@ -445,6 +429,7 @@ The benefits of this approach are two-fold:
   The [Custom Elements Manifest](https://github.com/webcomponents/custom-elements-manifest) (CEM) is a spec that describes how to represent a web component as a JSON object. There’s a [CEM analyser](https://github.com/open-wc/custom-elements-manifest?tab=readme-ov-file) that generates this object for your components. The output can be used to create a host of different tooling around web components. For instance, the [API Viewer](https://api-viewer.open-wc.org/) element is one such tool.
 
   ### Option 3: UI Cataloging tools
+
   Beyond static site generators, there are more involved cataloguing tools, like Storybook. These cataloguing tools showcase the full breadth of functionality of your components
 
   [Storybook](https://storybook.js.org/) has a strong ecosystem of plugins that allow developers to simulate events, change viewport width, perform basic accessibility tests, and more.
@@ -452,6 +437,7 @@ The benefits of this approach are two-fold:
   This approach is fine, but I’ve often seen it used in conjunction with a documentation site, not to replace it.
 
   ### Opinion Time (🪙🪙)
+
   In the past, I would use a tool like Storybook. I like how feature-rich it is, and how great the ecosystem is. More recently, I’ve been interested in forgoing a tool like Storybook, and instead of splitting up documentation from component cataloging, provide a single resource for consumers. Other libraries take this approach too. [Shoelace](https://shoelace.style/resources/contributing/#dev-sandbox) discusses why it doesn’t use Storybook in their documentation site.
 
   For a recent project, I created a simple HTML site that consumed my components. it was a quick and easy way of publishing a site and requires little maintenance. The downside is that it’s a very static approach, and won’t scale for a component library that’s quickly growing and changing
@@ -459,7 +445,6 @@ The benefits of this approach are two-fold:
   I have been exploring using the _custom element manifest_ to automatically generate documentation for my components, but I haven’t cracked an ideal workflow yet.
 
   As for deploying your documentation site, there are heaps of different tools out there to quickly get a static site live. My go to hosting platform for deploying a static site is Netlify. But you can use one of any other hosting site out there.
-</details>
 
 ## What’s next?
 
