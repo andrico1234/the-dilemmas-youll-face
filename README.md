@@ -4,7 +4,7 @@
 
 Building a component library is a challenging and rewarding experience, but there’s more to it than writing great-looking components. At every step of the journey, you’ll need to make choices to ensure your library is built appropriately for its intended audience.
 
-When buildinh your librarym, you'll need to consider the following questions:
+When building your library, you'll need to consider the following dillemas:
 
 - [Should I write vanilla web components or use a library?](#should-i-write-vanilla-web-components-or-use-a-library)
 - [Should I export my library as a single package or as scoped packages?](#should-i-export-my-library-as-a-single-package-or-as-scoped-packages)
