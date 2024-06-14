@@ -14,6 +14,7 @@ When building your library, you'll need to consider the following dillemas:
 - [How can I safely publish my library?](#how-can-i-safely-publish-my-library)
 - [What should my library’s testing strategy be?](#what-should-my-librarys-testing-strategy-be)
 - [How to write documentation for my component library](#how-to-write-documentation-for-my-component-library)
+- [How should I distribute my styles?](#how-should-i-distribute-my-styles)
 - [What’s next?](#whats-next)
 
 While this series is focused on building a component library using web components, many of the dilemmas I cover here can be applied to other web frameworks.
@@ -445,6 +446,59 @@ For a recent project, I created a simple HTML site that consumed my components. 
 I have been exploring using the _custom element manifest_ to automatically generate documentation for my components, but I haven’t cracked an ideal workflow yet.
 
 As for deploying your documentation site, there are heaps of different tools out there to quickly get a static site live. My go to hosting platform for deploying a static site is Netlify. But you can use one of any other hosting site out there.
+
+## How should I distribute my styles?
+
+Most component libraries allow their consumers to customise the styles in one way or another. For many web development projects, this could be as simple as targeting a class with a CSS rule. Vanilla CSS isn’t the only option at your disposal, and library authors may want to accommodate for other solutions, like CSS pre-processors and utility-first CSS frameworks.
+
+On top of that, some options may be off the table completely due to limitations with how you write your component library.
+
+### Vanilla CSS
+
+Choosing to distribute your styles as CSS is the lowest-tech option available. Your consumers can import your stylesheets without requiring a build step. If your library consists of a CSS file and little else, it becomes much easier for you to host on CDN platforms, allowing your consumers to avoid using NPM entirely.
+
+The skill ceiling is lower too, you don’t require your consumers to learn a brand new technology, like Tailwind, or a pre-processor like Sass.
+
+The downside to this approach is that the consumer ships all of the styles that you provide by default. If your library offers styling for 50 CSS classes, and your consumers only use 5, then 95% of your style sheet is wasted bandwidth.
+
+If you’re building a web component library that heavily uses the shadow DOM, then you’ll need to do more than ship a global CSS file. Instead, you’ll need to leverage CSS variables and CSS parts to ensure your consumers can hook into your component and adjust the styles as they see fit.
+
+I have planned a dedicated chapter to dive deeper into this problem, so check back soon for updates
+
+### Pre-processors (e.g., Sass)
+
+There are cases where it’s appropriate for you to publish your styles in the format of your pre-processor. An example of a popular pre-processor is Sass.
+
+One of the most attractive benefits of using Sass is the greater control it gives to consumers.
+
+Take [Pico](https://picocss.com/docs/sass) for instance, which allows consumers to opt out of unnecessary style modules, cutting down on style weight by double-digit percentages.
+
+On top of that, by offering your styles as Sass you can expose functions and mixins to your consumers, effectively giving them powerful tools to style their components in ways they’re unable to with vanilla CSS. [Bulma](https://bulma.io/documentation/sass/extends/) is a wonderful library that offers a bunch of Sass tools to help you write DRY-er styling code.
+
+The trade-off is that you’re offloading complexity over to your consumers, they’ll need to configure their build tool to support Sass. You’re also locking consumers behind your choice of pre-processor. With the frontend landscape changing rapidly (and vanilla CSS gaining so many amazing features), the currently preferred tools for authoring and consuming styles may fall out of fashion.
+
+### Hybrid Approach (both CSS and Sass)
+
+I mentioned Pico above, but Pico outputs their styles as both Sass and vanilla CSS. This gives your consumers the best of both worlds:
+
+1. A drop-in CSS file, for those that want something quick and easy
+2. Access to Sass files, for those that want greater control over the build outputs
+
+The flexibility you give to your consumers comes at a cost of complexity in your repo. You’ll need need to ensure that your published bundle contains both compiled CSS and the uncompiled Sass files.
+
+### Utility-first CSS frameworks (e.g., Tailwind)
+
+Tailwind and other utility-first CSS frameworks are popular tools for styling components. Many developers may look specifically for a component library that integrates well with Tailwind.
+
+Unlike the other approaches, if you’re choosing to support a CSS framework, you won’t need to integrate it within your library. Instead, you need to make a few considerations so consumers can use it themselves with little friction.
+
+To accommodate a tool like Tailwind, you’ll want to offer little pre-defined styling for your components. A consumer can then set up a configuration file with their brand guidelines to style the components as they please. You’ll also want to design your component API so consumers can pass classes through to almost any internal DOM node. With that said, if you’re offering a library with a distinct visual identity, first-class Tailwind support may be a low priority.
+
+Tailwind in particular has a rich ecosystem, with heaps of plugins, themes, and presets, to help developers style their components quickly. On top of that, Tailwind’s build tool removes unused CSS, meaning that consumers can reduce the amount of CSS that gets shipped to the end user.
+
+## Other options
+
+There are heaps of other options that I haven’t mentioned in this section. If you’d like to see more solutions discussed, then leave your suggestion in a GitHub issue.
 
 ## What’s next?
 
